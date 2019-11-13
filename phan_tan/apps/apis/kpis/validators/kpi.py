@@ -11,5 +11,6 @@ class IndexKPIRequest(USchema):
     offset = fields.Integer(validate=Range(min=0))
     department_id = fields.Int()
     employee_id = fields.Int()
+    project_id = fields.Int()
     start_time = fields.Str()
     end_time = fields.Str()
