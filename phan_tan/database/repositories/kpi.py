@@ -12,7 +12,8 @@ class KPIRepository(CRUD):
 
         if 'department_id' in kwargs:
             query = query.filter(
-                self.model.department_id == kwargs['department_id']
+                self.model.department_id == kwargs['department_id'],
+                self.model.employee_id.is_(None)
             )
 
         if 'employee_id' in kwargs:
@@ -22,7 +23,8 @@ class KPIRepository(CRUD):
 
         if 'project_id' in kwargs:
             query = query.filter(
-                self.model.employee_id == kwargs['project_id']
+                self.model.project_id == kwargs['project_id'],
+                self.model.employee_id.is_(None)
             )
 
         if 'start_time' in kwargs:

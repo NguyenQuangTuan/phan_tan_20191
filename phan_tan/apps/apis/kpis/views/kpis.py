@@ -5,7 +5,7 @@ from phan_tan.database.repositories import KPIRepository
 from phan_tan.common.flask_decorators import (
     validate_params
 )
-from phan_tan.common.errors import UUnprocessableEntity
+from phan_tan.common.errors import UUnprocessableEntity, UNotFound
 from ..validators.kpi import IndexKPIRequest
 
 
@@ -37,6 +37,8 @@ class KPIs(UResource):
             'employee_id': employee_id,
             'project_id': project_id
         })
-        kpi = self.kpi_repo.first_or_fail(**conditions)
+        kpi = self.kpi_repo.get_one(**conditions)
+        if not kpi:
+            raise UNotFound('Kpi not found')
 
         return to_dict(kpi)
