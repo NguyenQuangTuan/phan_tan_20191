@@ -5,6 +5,7 @@ from phan_tan.database.repositories import KPIRepository
 from phan_tan.common.flask_decorators import (
     validate_params
 )
+from phan_tan.common.errors import UUnprocessableEntity
 from ..validators.kpi import IndexKPIRequest
 
 
@@ -16,16 +17,26 @@ class KPIs(UResource):
     @validate_params(IndexKPIRequest)
     def get(self):
         query = self.query
-        conditions = clean_dict({
-            'limit': query.get('limit'),
-            'offset': query.get('offset'),
-            'department_id': query.get('department_id'),
-            'employee_id': query.get('employee_id'),
-            'start_time': query.get('start_time'),
-            'end_time': query.get('end_time'),
-        })
-        kpis = self.kpi_repo.index(**conditions)
+        employee_id = query.get('employee_id', None)
+        department_id = query.get('department_id', None)
+        project_id = query.get('project_id', None)
 
-        return {
-            'kpis': to_dict(kpis)
-        }
+        if not any([k for k in [employee_id, department_id, project_id]]):
+            raise UUnprocessableEntity(
+                '''At least one of employee_id, department_id, project_id
+                must be existed'''
+            )
+
+        if employee_id and not any([k for k in [department_id, project_id]]):
+            raise UUnprocessableEntity(
+                'department_id or project_id is required'
+            )
+
+        conditions = clean_dict({
+            'department_id': department_id,
+            'employee_id': employee_id,
+            'project_id': project_id
+        })
+        kpi = self.kpi_repo.first_or_fail(**conditions)
+
+        return to_dict(kpi)
