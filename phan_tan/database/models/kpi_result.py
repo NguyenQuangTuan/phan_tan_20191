@@ -4,14 +4,14 @@ from .base import DeclarativeBase, Base
 from .common.date_timestamp import DateTimestamp
 
 
-class KPIType(Enum):
+class KPIResultType(Enum):
     DEPARTMENT = 'DEPARTMENT'
     EMPLOYEE = 'EMPLOYEE'
     PROJECT = 'PROJECT'
 
 
-class KPI(DeclarativeBase, Base, DateTimestamp):
-    __tablename__ = 'kpis'
+class KPIResult(DeclarativeBase, Base, DateTimestamp):
+    __tablename__ = 'kpi_results'
 
     id = Column(Integer, primary_key=True)
     type = Column(String, nullable=False)

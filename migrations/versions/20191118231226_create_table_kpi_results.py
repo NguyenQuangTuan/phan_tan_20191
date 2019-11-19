@@ -1,8 +1,8 @@
-"""create_table_kpis
+"""create_table_kpi_results
 
-Revision ID: cf51176aae43
-Revises:
-Create Date: 2019-11-07 01:46:48.526441
+Revision ID: fb83ff2a9cea
+Revises: fd30b90f1f7d
+Create Date: 2019-11-18 23:12:26.308602
 
 """
 from alembic import op
@@ -10,15 +10,15 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cf51176aae43'
-down_revision = None
+revision = 'fb83ff2a9cea'
+down_revision = 'fd30b90f1f7d'
 branch_labels = None
 depends_on = None
 
 
 def upgrade():
     op.create_table(
-        'kpis',
+        'kpi_results',
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('type', sa.String, nullable=False),
         sa.Column('criterias', sa.JSON, server_default='[]', nullable=False),
@@ -31,4 +31,4 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('kpis')
+    op.drop_table('kpi_results')

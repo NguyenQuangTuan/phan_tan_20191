@@ -3,7 +3,7 @@ from marshmallow.validate import Range
 from phan_tan.common.validator import USchema
 
 
-class IndexKPIRequest(USchema):
+class IndexKPIResultRequest(USchema):
     class Meta:
         unknown = EXCLUDE
 
@@ -22,10 +22,11 @@ class Criteria(USchema):
 
     name = fields.Str(required=True)
     ratio = fields.Float(required=True)
+    complete_rating = fields.Float(required=True)
     note = fields.Str(required=True, allow_none=True)
 
 
-class CreateKPIRequest(USchema):
+class CreateKPIResultRequest(USchema):
     class Meta:
         unknown = EXCLUDE
 
@@ -36,13 +37,3 @@ class CreateKPIRequest(USchema):
     department_id = fields.Int(required=True, allow_none=True)
     employee_id = fields.Int(required=True, allow_none=True)
     project_id = fields.Int(required=True, allow_none=True)
-
-
-class UpdateKPIRequest(USchema):
-    class Meta:
-        unknown = EXCLUDE
-
-    criterias = fields.List(
-        fields.Nested(Criteria, required=True),
-        required=True
-    )

@@ -3,20 +3,20 @@ from phan_tan import db
 from phan_tan.common.helpers.dict_ultility import to_dict, clean_dict
 from phan_tan.common.api import UResource
 from phan_tan.database.models import KPIType
-from phan_tan.database.repositories import KPIRepository
+from phan_tan.database.repositories import KPIResultRepository
 from phan_tan.common.flask_decorators import (
     validate_params, validate_body
 )
 from phan_tan.common.errors import UUnprocessableEntity, UNotFound
-from ..validators.kpi import IndexKPIRequest, CreateKPIRequest
+from ..validators.kpi import IndexKPIResultRequest, CreateKPIResultRequest
 
 
-class KPIs(UResource):
+class KPIResults(UResource):
     def __init__(self):
         self.session = db.session_factory
-        self.kpi_repo = KPIRepository(self.session)
+        self.kpi_result_repo = KPIResultRepository(self.session)
 
-    @validate_params(IndexKPIRequest)
+    @validate_params(IndexKPIResultRequest)
     def get(self):
         query = self.query
         employee_id = query.get('employee_id', None)
@@ -29,13 +29,14 @@ class KPIs(UResource):
             'employee_id': employee_id,
             'project_id': project_id
         })
-        kpi = self.kpi_repo.get_one(**conditions)
-        if not kpi:
-            raise UNotFound('Kpi not found')
+        total, kpi_results = self.kpi_result_repo.index(**conditions)
 
-        return to_dict(kpi)
+        return {
+            'total': total,
+            'kpi_results': to_dict(kpi_results)
+        }
 
-    @validate_body(CreateKPIRequest)
+    @validate_body(CreateKPIResultRequest)
     def post(self):
         body = self.body
         employee_id = body.get('employee_id', None)
@@ -48,7 +49,7 @@ class KPIs(UResource):
         type = self._get_kpi_type(employee_id, department_id, project_id)
 
         with session_scope(self.session):
-            kpi_orm = self.kpi_repo.create(
+            kpi_orm = self.kpi_result_repo.create(
                 type=type,
                 criterias=criterias,
                 employee_id=employee_id,
