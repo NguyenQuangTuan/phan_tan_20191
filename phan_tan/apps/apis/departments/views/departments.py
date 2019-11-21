@@ -4,14 +4,14 @@ from phan_tan.common.api import UResource
 from phan_tan.database.repositories import DepartmentRepository
 
 
-class Department(UResource):
+class Departments(UResource):
     def __init__(self):
         self.session = db.session_factory
         self.department_repo = DepartmentRepository(self.session)
 
-    def get(self, id):
-        department = self.department_repo.first_or_fail(id=id)
+    def get(self):
+        departments = self.department_repo.find()
 
         return {
-            'department': to_dict(department)
+            'departments': to_dict(departments)
         }

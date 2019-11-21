@@ -7,7 +7,7 @@ from phan_tan.database.repositories import KPIResultRepository
 from phan_tan.common.flask_decorators import (
     validate_params, validate_body
 )
-from phan_tan.common.errors import UUnprocessableEntity, UNotFound
+from phan_tan.common.errors import UUnprocessableEntity
 from ..validators.kpi import IndexKPIResultRequest, CreateKPIResultRequest
 
 
