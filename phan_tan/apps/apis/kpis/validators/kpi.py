@@ -10,8 +10,8 @@ class IndexKPIRequest(USchema):
     limit = fields.Integer(validate=Range(min=1))
     offset = fields.Integer(validate=Range(min=0))
     department_id = fields.Int()
-    employee_id = fields.Int()
-    project_id = fields.Int()
+    employee_id = fields.Str()
+    project_id = fields.Str()
     start_time = fields.Str()
     end_time = fields.Str()
 
@@ -34,8 +34,8 @@ class CreateKPIRequest(USchema):
         required=True
     )
     department_id = fields.Int(required=True, allow_none=True)
-    employee_id = fields.Int(required=True, allow_none=True)
-    project_id = fields.Int(required=True, allow_none=True)
+    employee_id = fields.Str(required=True, allow_none=True)
+    project_id = fields.Str(required=True, allow_none=True)
 
 
 class UpdateKPIRequest(USchema):

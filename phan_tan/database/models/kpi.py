@@ -17,5 +17,5 @@ class KPI(DeclarativeBase, Base, DateTimestamp):
     type = Column(String, nullable=False)
     criterias = Column(JSON, nullable=False, default='[]')
     department_id = Column(Integer, nullable=True)
-    employee_id = Column(Integer, nullable=True)
-    project_id = Column(Integer)
+    employee_id = Column(String, nullable=True)
+    project_id = Column(String)
