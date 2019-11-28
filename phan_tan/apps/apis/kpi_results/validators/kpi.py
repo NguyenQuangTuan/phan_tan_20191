@@ -1,6 +1,8 @@
 from marshmallow import EXCLUDE, fields
-from marshmallow.validate import Range
+from marshmallow.validate import Range, OneOf
 from phan_tan.common.validator import USchema
+
+list_type = ['DEPARTMENT', 'EMPLOYEE', 'PROJECT']
 
 
 class IndexKPIResultRequest(USchema):
@@ -37,3 +39,12 @@ class CreateKPIResultRequest(USchema):
     department_id = fields.Int(required=True, allow_none=True)
     employee_id = fields.Str(required=True, allow_none=True)
     project_id = fields.Str(required=True, allow_none=True)
+
+
+class IndexAllKPIResultRequest(USchema):
+    class Meta:
+        unknown = EXCLUDE
+
+    type = fields.Str(validate=OneOf(list_type))
+    start_time = fields.Str()
+    end_time = fields.Str()
