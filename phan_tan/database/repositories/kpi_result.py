@@ -33,13 +33,15 @@ class KPIResultRepository(CRUD):
             )
 
         if 'start_time' in kwargs:
+            st = kwargs['start_time']
             query = query.filter(
-                self.model.created_at >= kwargs['start_time']
+                self.model.created_at >= st
             )
 
         if 'end_time' in kwargs:
+            et = kwargs['end_time']
             query = query.filter(
-                self.model.created_at <= kwargs['end_time']
+                self.model.created_at <= et
             )
 
         query = query.order_by(self.model.id.desc())

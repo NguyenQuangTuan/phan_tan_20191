@@ -1,3 +1,5 @@
+import datetime
+import pytz
 from database_new import session_scope
 from phan_tan import db
 from phan_tan.common.helpers.dict_ultility import to_dict, clean_dict
@@ -22,12 +24,15 @@ class KPIResults(UResource):
         employee_id = query.get('employee_id', None)
         department_id = query.get('department_id', None)
         project_id = query.get('project_id', None)
+        start_time, end_time = self._validate_time(query)
 
         self._validate_id(employee_id, department_id, project_id)
         conditions = clean_dict({
             'department_id': department_id,
             'employee_id': employee_id,
-            'project_id': project_id
+            'project_id': project_id,
+            'start_time': start_time,
+            'end_time': end_time
         })
         total, kpi_results = self.kpi_result_repo.index(**conditions)
 
@@ -88,3 +93,19 @@ class KPIResults(UResource):
         if project_id:
             type = KPIType.PROJECT.value
         return type
+
+    @staticmethod
+    def _validate_time(query):
+        start_time = query.get('start_time', None)
+        end_time = query.get('end_time', None)
+        try:
+            # 2019-10-02 00:00:00
+            if start_time:
+                start_time = datetime.datetime.strptime(
+                    start_time, '%Y-%m-%d %H:%M:%S').astimezone(pytz.utc)
+            if end_time:
+                end_time = datetime.datetime.strptime(
+                    end_time, '%Y-%m-%d %H:%M:%S').astimezone(pytz.utc)
+            return start_time, end_time
+        except Exception:
+            raise UUnprocessableEntity('Time invalid')
