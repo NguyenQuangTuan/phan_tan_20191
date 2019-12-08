@@ -19,3 +19,4 @@ class KPI(DeclarativeBase, Base, DateTimestamp):
     department_id = Column(Integer, nullable=True)
     employee_id = Column(String, nullable=True)
     project_id = Column(String)
+    period = Column(String, default='YEAR')
