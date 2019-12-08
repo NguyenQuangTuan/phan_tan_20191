@@ -22,12 +22,14 @@ class KPIs(UResource):
         employee_id = query.get('employee_id', None)
         department_id = query.get('department_id', None)
         project_id = query.get('project_id', None)
+        period = query.get('period', 'YEAR')
 
         self._validate_id(employee_id, department_id, project_id)
         conditions = clean_dict({
             'department_id': department_id,
             'employee_id': employee_id,
-            'project_id': project_id
+            'project_id': project_id,
+            'period': period
         })
         kpi = self.kpi_repo.get_one(**conditions)
         if not kpi:
@@ -42,6 +44,7 @@ class KPIs(UResource):
         department_id = body.get('department_id', None)
         project_id = body.get('project_id', None)
         criterias = body.get('criterias', None)
+        period = body.get('period', 'YEAR')
 
         self._validate_id(employee_id, department_id, project_id)
         self._validate_criteria(criterias)
@@ -53,7 +56,8 @@ class KPIs(UResource):
                 criterias=criterias,
                 employee_id=employee_id,
                 department_id=department_id,
-                project_id=project_id
+                project_id=project_id,
+                period=period
             )
 
             return to_dict(kpi_orm)

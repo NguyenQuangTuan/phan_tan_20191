@@ -14,6 +14,7 @@ class IndexKPIRequest(USchema):
     project_id = fields.Str()
     start_time = fields.Str()
     end_time = fields.Str()
+    period = fields.Str()
 
 
 class Criteria(USchema):
@@ -36,6 +37,7 @@ class CreateKPIRequest(USchema):
     department_id = fields.Int(required=True, allow_none=True)
     employee_id = fields.Str(required=True, allow_none=True)
     project_id = fields.Str(required=True, allow_none=True)
+    period = fields.Str(missing='YEAR')
 
 
 class UpdateKPIRequest(USchema):
