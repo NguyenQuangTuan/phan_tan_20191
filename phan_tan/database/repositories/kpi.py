@@ -32,6 +32,11 @@ class KPIRepository(CRUD):
                 self.model.employee_id.is_(None)
             )
 
+        if 'period' in kwargs:
+            query = query.filter(
+                self.model.period == kwargs['period']
+            )
+
         if 'start_time' in kwargs:
             query = query.filter(
                 self.model.created_at >= kwargs['start_time']
