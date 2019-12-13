@@ -1,6 +1,8 @@
 from marshmallow import EXCLUDE, fields
-from marshmallow.validate import Range
+from marshmallow.validate import Range, OneOf
 from phan_tan.common.validator import USchema
+
+list_type = ['DEPARTMENT', 'EMPLOYEE', 'PROJECT']
 
 
 class IndexKPIRequest(USchema):
@@ -48,3 +50,10 @@ class UpdateKPIRequest(USchema):
         fields.Nested(Criteria, required=True),
         required=True
     )
+
+
+class IndexAllKPIRequest(USchema):
+    class Meta:
+        unknown = EXCLUDE
+
+    type = fields.Str(validate=OneOf(list_type), required=True)
