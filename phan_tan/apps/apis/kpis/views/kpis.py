@@ -80,6 +80,8 @@ class KPIs(UResource):
         total_ratio = sum([c['ratio'] for c in criterias])
         if total_ratio != 1:
             raise UUnprocessableEntity('Total ratio must be equal 1')
+        for c in criterias:
+            c['name'] = c['name'].strip()
 
     @staticmethod
     def _get_kpi_type(employee_id=None, department_id=None, project_id=None):
