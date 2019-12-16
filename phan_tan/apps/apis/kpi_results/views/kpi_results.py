@@ -80,7 +80,7 @@ class KPIResults(UResource):
     @staticmethod
     def _validate_criteria(criterias):
         total_ratio = sum([c['ratio'] for c in criterias])
-        if total_ratio != 1:
+        if round(total_ratio, 3) != 1:
             raise UUnprocessableEntity('Total ratio must be equal 1')
 
     @staticmethod
