@@ -17,7 +17,7 @@ pytest-cov = "~=2.7.1"
 
 [packages]
 flask = "==1.0.2"
-flask-cors = "==3.0.7"
+flask-cors = "==3.0.9"
 flask-restful = "==0.3.7"
 marshmallow = "==3.0.0rc5"
 marshmallow-sqlalchemy = "==0.16.1"
